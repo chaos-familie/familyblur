@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { decode, encode } from "blurhash";
 import { createCanvas, Image } from "canvas";
 import sharp from "sharp";
@@ -49,6 +49,8 @@ Bun.serve({
               4,
               3
             ),
+            width: imageData.width,
+            height: imageData.height,
           },
           { status: 200 }
         );
