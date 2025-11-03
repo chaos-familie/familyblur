@@ -64,6 +64,10 @@ Start the development server with `bun dev` - the Server runs on the port `3000`
 ? hash=<blurhash> & format=<png | jpeg | webp | avif>
 ```
 
+> **hash** should be URI encoded (for example with `encodeURIComponent`)
+>
+> **format** is optional, default is `png`
+
 **Response**
 
 an Attached image
