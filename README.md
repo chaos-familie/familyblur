@@ -71,7 +71,9 @@ Start the development server with `bun dev` - the Server runs on the port `3000`
 
 ```json
 {
-  "data": "<blurhash>"
+  "data": "<blurhash>",
+  "width": "<image width>",
+  "height": "<image height>"
 }
 ```
 
