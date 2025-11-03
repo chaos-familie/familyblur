@@ -4,6 +4,7 @@
 
 - [About](#about)
 - [Getting Started](#getting_started)
+- [Deployment](#deployment)
 - [Usage](#usage)
 - [License](#license)
 
@@ -31,6 +32,26 @@ bun install
 ```
 
 and done!
+
+## Deployment <a name = "Deployment"></a>
+
+To deploy a docker container use the offical package: `ghcr.io/chaos-familie/familyblur`.
+
+**Docker Run**
+
+```bash
+docker run -p 3000:3000 ghcr.io/chaos-familie/familyblur
+```
+
+**Docker Compose**
+
+```yaml
+services:
+  familyblur:
+    image: ghcr.io/chaos-familie/familyblur
+    ports:
+      - 3000:3000
+```
 
 ## Usage <a name = "usage"></a>
 
