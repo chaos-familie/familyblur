@@ -13,28 +13,28 @@ Bun.serve({
           data: any;
         };
 
+        let buffer: Uint8Array;
+
         if (data.data.startsWith("http")) {
           try {
             const resp = await axios.get(data.data, {
               responseType: "arraybuffer",
             });
 
-            data.data = resp.data;
+            buffer = resp.data;
           } catch (err) {
-            const error = err as AxiosError;
-            console.error(error.message);
+            console.error(err);
           }
         } else {
-          data.data = atob(data.data);
+          const rawData = atob(data.data);
+          buffer = new Uint8Array(rawData.length);
+
+          for (let x = 0; x < rawData.length; x++) {
+            buffer[x] = rawData.charCodeAt(x);
+          }
         }
 
-        const buffer = new Uint8Array(data.data.length);
-
-        for (let x = 0; x < data.data.length; x++) {
-          buffer[x] = data.data.charCodeAt(x);
-        }
-
-        const convertedImage = await sharp(buffer)
+        const convertedImage = await sharp(buffer!)
           .jpeg({ force: true, quality: 50 })
           .toBuffer();
         const image = await loadImage(convertedImage);
