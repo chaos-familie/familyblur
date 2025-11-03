@@ -39,17 +39,17 @@ Start the development server with `bun dev` - the Server runs on the port `3000`
 
 **Request**
 
-```
+```json
 {
-    "data": "<base64 encoded image>"
+  "data": "<base64 encoded image>"
 }
 ```
 
 **Response**
 
-```
+```json
 {
-    "data": "<blurhash>"
+  "data": "<blurhash>"
 }
 ```
 
