@@ -63,7 +63,7 @@ Start the development server with `bun dev` - the Server runs on the port `3000`
 
 ```json
 {
-  "data": "<base64 encoded image>"
+  "data": "<base64 encoded image | url of an image>"
 }
 ```
 
@@ -82,12 +82,14 @@ Start the development server with `bun dev` - the Server runs on the port `3000`
 **Query**
 
 ```
-? hash=<blurhash> & format=<png | jpeg | webp | avif>
+? hash=<blurhash> & format=<png | jpeg | webp | avif> & width=<width> & height=<height>
 ```
 
 > **hash** should be URI encoded (for example with `encodeURIComponent`)
 >
 > **format** is optional, default is `png`
+>
+> **width** & **height** are optional, default is `128`
 
 **Response**
 

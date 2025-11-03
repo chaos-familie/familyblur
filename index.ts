@@ -1,3 +1,4 @@
+import axios, { AxiosError } from "axios";
 import { decode, encode } from "blurhash";
 import { createCanvas, Image } from "canvas";
 import sharp from "sharp";
@@ -8,10 +9,24 @@ Bun.serve({
     "/v1/get_blur": {
       OPTIONS: preflight,
       POST: async (req) => {
-        const data = (await req.json()) as {
-          data: string;
+        let data = (await req.json()) as {
+          data: any;
         };
-        const image = await loadImage(data);
+
+        if (data.data.startsWith("http")) {
+          try {
+            const resp = await axios.get(data.data, {
+              responseType: "arraybuffer",
+            });
+
+            data.data = resp.data;
+          } catch (err) {
+            const error = err as AxiosError;
+            console.error(error.message);
+          }
+        }
+
+        const image = await loadImage(data.data);
         const imageData = getImageData(image as any);
 
         return Response.json(
@@ -31,17 +46,16 @@ Bun.serve({
     "/v1/get_image": {
       OPTIONS: preflight,
       GET: async (req) => {
-        const WIDTH = 190;
-        const HEIGHT = 140;
-
         const url = new URL(req.url);
         const hash = decodeURIComponent(url.searchParams.get("hash") ?? "");
         const format = url.searchParams.get("format") ?? "webp";
+        const width = Number(url.searchParams.get("width") ?? "128");
+        const height = Number(url.searchParams.get("height") ?? "128");
 
-        const canvas = createCanvas(WIDTH, HEIGHT);
+        const canvas = createCanvas(width, height);
         const context = canvas.getContext("2d");
-        const imageData = context.createImageData(WIDTH, HEIGHT);
-        const blurImg = decode(hash!, WIDTH, HEIGHT);
+        const imageData = context.createImageData(width, height);
+        const blurImg = decode(hash!, width, height);
 
         imageData.data.set(blurImg);
         context.putImageData(imageData, 0, 0);
