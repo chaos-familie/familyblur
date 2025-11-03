@@ -24,13 +24,14 @@ Bun.serve({
             const error = err as AxiosError;
             console.error(error.message);
           }
+        } else {
+          data.data = atob(data.data);
         }
 
-        const rawData = atob(data.data);
-        const buffer = new Uint8Array(rawData.length);
+        const buffer = new Uint8Array(data.data.length);
 
-        for (let x = 0; x < rawData.length; x++) {
-          buffer[x] = rawData.charCodeAt(x);
+        for (let x = 0; x < data.data.length; x++) {
+          buffer[x] = data.data.charCodeAt(x);
         }
 
         const convertedImage = await sharp(buffer)
